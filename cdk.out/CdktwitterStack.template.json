@@ -1,0 +1,492 @@
+{
+ "Resources": {
+  "httpapiexampleFD2D0249": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "CorsConfiguration": {
+     "AllowCredentials": true,
+     "AllowHeaders": [
+      "Content-Type",
+      "X-Amz-Date",
+      "Authorization",
+      "X-Api-Key"
+     ],
+     "AllowMethods": [
+      "OPTIONS",
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE"
+     ],
+     "AllowOrigins": [
+      "http://localhost:3000"
+     ]
+    },
+    "Description": "HTTP API example",
+    "Name": "http-api-example",
+    "ProtocolType": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/Resource"
+   }
+  },
+  "httpapiexampleDefaultStage14832C93": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "httpapiexampleFD2D0249"
+    },
+    "StageName": "$default",
+    "AutoDeploy": true
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/DefaultStage/Resource"
+   }
+  },
+  "httpapiexampleGETtasksgettasksintegrationDFB8CB86": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "httpapiexampleFD2D0249"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "gettasks8547A8E8",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/GET--tasks/get-tasks-integration/Resource"
+   }
+  },
+  "httpapiexampleGETtasksgettasksintegrationPermission1BCDE2F4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "gettasks8547A8E8",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-1:536233321899:",
+       {
+        "Ref": "httpapiexampleFD2D0249"
+       },
+       "/*/*/tasks"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/GET--tasks/get-tasks-integration-Permission"
+   }
+  },
+  "httpapiexampleGETtasks90B07F1F": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "httpapiexampleFD2D0249"
+    },
+    "RouteKey": "GET /tasks",
+    "AuthorizationType": "NONE",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "httpapiexampleGETtasksgettasksintegrationDFB8CB86"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/GET--tasks/Resource"
+   }
+  },
+  "httpapiexamplePOSTtaskscreatetaskintegration4ED422FA": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "httpapiexampleFD2D0249"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "createtaskF577D8C1",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/POST--tasks/create-task-integration/Resource"
+   }
+  },
+  "httpapiexamplePOSTtaskscreatetaskintegrationPermissionD399E70A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "createtaskF577D8C1",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-1:536233321899:",
+       {
+        "Ref": "httpapiexampleFD2D0249"
+       },
+       "/*/*/tasks"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/POST--tasks/create-task-integration-Permission"
+   }
+  },
+  "httpapiexamplePOSTtasks6A857946": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "httpapiexampleFD2D0249"
+    },
+    "RouteKey": "POST /tasks",
+    "AuthorizationType": "NONE",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "httpapiexamplePOSTtaskscreatetaskintegration4ED422FA"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/http-api-example/POST--tasks/Resource"
+   }
+  },
+  "TableCD117FA1": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/Table/Resource"
+   }
+  },
+  "gettasksServiceRole21C1096F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/get-tasks/ServiceRole/Resource"
+   }
+  },
+  "gettasksServiceRoleDefaultPolicyB298B900": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "TableCD117FA1",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "gettasksServiceRoleDefaultPolicyB298B900",
+    "Roles": [
+     {
+      "Ref": "gettasksServiceRole21C1096F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/get-tasks/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "gettasks8547A8E8": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-536233321899-us-west-1",
+     "S3Key": "f53e4b349c6b5813b010e829cfb08f8715b849eeba39cae52f826eee311f642d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "gettasksServiceRole21C1096F",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "TableCD117FA1"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.get",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "gettasksServiceRoleDefaultPolicyB298B900",
+    "gettasksServiceRole21C1096F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/get-tasks/Resource",
+    "aws:asset:path": "asset.f53e4b349c6b5813b010e829cfb08f8715b849eeba39cae52f826eee311f642d",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "createtaskServiceRole4F657D3B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/create-task/ServiceRole/Resource"
+   }
+  },
+  "createtaskServiceRoleDefaultPolicy7887FC07": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "TableCD117FA1",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "createtaskServiceRoleDefaultPolicy7887FC07",
+    "Roles": [
+     {
+      "Ref": "createtaskServiceRole4F657D3B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/create-task/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "createtaskF577D8C1": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-536233321899-us-west-1",
+     "S3Key": "f53e4b349c6b5813b010e829cfb08f8715b849eeba39cae52f826eee311f642d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "createtaskServiceRole4F657D3B",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "TableCD117FA1"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.post",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "createtaskServiceRoleDefaultPolicy7887FC07",
+    "createtaskServiceRole4F657D3B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/create-task/Resource",
+    "aws:asset:path": "asset.f53e4b349c6b5813b010e829cfb08f8715b849eeba39cae52f826eee311f642d",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/01Qy26DMBD8lt7NhpJD1VuTSlV7qSLaO9oYl5iHjViTCFn+93oNkXKaWc/OWDsF+GIP+RPeKJN1l/X6DP7HoexEfKo8jrpBp264XAvw73/mMGoRIa40ismXcaqZ0GlreCzt7FQQPQ7nGpPhpKZBE236x2wk7wZRLwYHW8fvfvHcp6xE7ubK2Fq1BN8J7j6hcQBf2tWQ8GR7LRceVxYE7SskUo7gwBBnOM6yU+6IFPNLRXaepBJJ5Uu0aVLcJgRR5JBn2I8XjN28beXsGB8L2Tb8p3Mj98K4FsMsVZHYQ0chCL4LWtpdn1/gNca3pHU2zcbpQUG54j8HoI0clwEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdktwitterStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

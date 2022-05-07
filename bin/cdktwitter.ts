@@ -8,5 +8,5 @@ import { table } from 'console';
 const app = new cdk.App();
 
 new CdktwitterStack(app, 'CdktwitterStack', {
-  env: { account: '536233321899', region: 'us-east-1' },
+  env: { account: '536233321899', region: 'us-west-1' },
 });

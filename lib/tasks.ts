@@ -36,35 +36,18 @@ export async function post(event: APIGatewayProxyEventV2): Promise<APIGatewayPro
 export async function get(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
     console.log(event);
 
-    const tasks = (await getTasksFromDatabase()).map((task) => ({
-        id: task.PK,
-        name: task.Name,
-        state: task.State,
-    }));
-
-    return {
-        statusCode: 200,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(tasks),
+    var params = {
+        TableName: env.TABLE_NAME!,
+        Select: 'ALL_ATTRIBUTES'
     };
-}
 
-async function getTasksFromDatabase(): Promise<DynamoDB.DocumentClient.ItemList> {
-    let startKey;
-    const result: DynamoDB.DocumentClient.ItemList = [];
+    const response = await dynamoClient.scan(params).promise();
+    return sendSuccess(response.Items)
 
-    do {
-        const res: DynamoDB.DocumentClient.ScanOutput = await dynamoClient.scan({
-            TableName: env.TABLE_NAME!,
-            ExclusiveStartKey: startKey,
-        }).promise();
-
-        if (res.Items) {
-            result.push()
+    function sendSuccess(message: any): APIGatewayProxyResultV2 {
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message })
         }
-    } while (startKey);
-
-    return result;
+    }
 }

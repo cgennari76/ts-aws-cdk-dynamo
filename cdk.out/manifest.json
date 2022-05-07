@@ -1,0 +1,154 @@
+{
+  "version": "18.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "CdktwitterStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CdktwitterStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CdktwitterStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://536233321899/us-west-1",
+      "properties": {
+        "templateFile": "CdktwitterStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::536233321899:role/cdk-hnb659fds-deploy-role-536233321899-us-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::536233321899:role/cdk-hnb659fds-cfn-exec-role-536233321899-us-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-536233321899-us-west-1/77046a626aa80963e8d46f949426bdbbd78637b6af4ea83ff70a42baeb2667ef.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CdktwitterStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::536233321899:role/cdk-hnb659fds-lookup-role-536233321899-us-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CdktwitterStack.assets"
+      ],
+      "metadata": {
+        "/CdktwitterStack/http-api-example/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexampleFD2D0249"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/DefaultStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexampleDefaultStage14832C93"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/GET--tasks/get-tasks-integration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexampleGETtasksgettasksintegrationDFB8CB86"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/GET--tasks/get-tasks-integration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexampleGETtasksgettasksintegrationPermission1BCDE2F4"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/GET--tasks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexampleGETtasks90B07F1F"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/POST--tasks/create-task-integration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexamplePOSTtaskscreatetaskintegration4ED422FA"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/POST--tasks/create-task-integration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexamplePOSTtaskscreatetaskintegrationPermissionD399E70A"
+          }
+        ],
+        "/CdktwitterStack/http-api-example/POST--tasks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "httpapiexamplePOSTtasks6A857946"
+          }
+        ],
+        "/CdktwitterStack/Table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableCD117FA1"
+          }
+        ],
+        "/CdktwitterStack/get-tasks/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "gettasksServiceRole21C1096F"
+          }
+        ],
+        "/CdktwitterStack/get-tasks/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "gettasksServiceRoleDefaultPolicyB298B900"
+          }
+        ],
+        "/CdktwitterStack/get-tasks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "gettasks8547A8E8"
+          }
+        ],
+        "/CdktwitterStack/create-task/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createtaskServiceRole4F657D3B"
+          }
+        ],
+        "/CdktwitterStack/create-task/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createtaskServiceRoleDefaultPolicy7887FC07"
+          }
+        ],
+        "/CdktwitterStack/create-task/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createtaskF577D8C1"
+          }
+        ],
+        "/CdktwitterStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CdktwitterStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CdktwitterStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CdktwitterStack"
+    }
+  }
+}

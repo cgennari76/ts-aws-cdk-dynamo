@@ -18,7 +18,7 @@ export class CdktwitterStack extends Stack {
     super(scope, id, props);
 
     // HTTP API
-    const httpApi = new HttpApi(this, 'http-api-example', {
+    const httpApi = new HttpApi (this, 'http-api-example', {
       description: 'HTTP API example',
       corsPreflight: {
         allowHeaders: [
