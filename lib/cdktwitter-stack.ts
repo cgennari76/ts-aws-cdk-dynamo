@@ -11,6 +11,8 @@ import {
 } from '@aws-cdk/aws-apigatewayv2-alpha';
 import {HttpLambdaIntegration} from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import * as path from 'path';
+import { EventSourceMapping } from 'aws-cdk-lib/aws-lambda';
+import { TargetTrackingScalingPolicy } from 'aws-cdk-lib/aws-applicationautoscaling';
 
 
 export class CdktwitterStack extends Stack {
@@ -52,6 +54,12 @@ export class CdktwitterStack extends Stack {
     });
 
     console.log('table name 👉', table.tableName);
+
+    // EventBridge event rule
+    new EventSourceMapping.Rule(this, "ScheduledEvent", {
+      schedule: EventSourceMapping.Schedule.rate(cdk.Duration.minutes(15)),
+      targets: [new targets.LambdaFunction(lambdaP)]
+    })
 
     // Lambda functions for GET
     const getTasksLambda = new NodejsFunction(this, 'get-tasks', {
